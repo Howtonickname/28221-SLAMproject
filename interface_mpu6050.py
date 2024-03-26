@@ -120,36 +120,6 @@ def update_gyro():
     print(new_rotation_angle)
     last_t = t
 
-    # a1 = acc_data
-    # v1 = v0+a1*t
-    # sredniav = (v1+v0)/2
-    # poz1 = poz0 + sredniav * t
-    # print(f"{poz1}")
-    # time.sleep(t)
-    # v0 = v1
-    # poz0 = poz1
-
-    # v1 = v0 + acc_data * t
-    # poz0 = v1 * t + 0.5 * acc_data * t ** 2
-    # poz1 += poz0
-    # print(f"{poz1}")
-    # time.sleep(t)
-    # v0 = v1
-
-    # a1 = acc_data
-    # v1 = v0 + (a1 + a0)*t/2
-    # poz1 = poz0 + (v1 + v0)*t/2
-    # print(f"{poz1}")
-    # a0 = a1
-    # v0 = v1
-    # poz0 = poz1
-
-
-    #acc = acc_data
-    #vel += acc * dt
-    #pos += vel * dt
-    #print(f"{dt:.6f}")
-
 
 
 ''' aplikowanie kalibracji na wszystkie osie, zostawie to ale do ograniczenia obliczeń będe sprawdzał tylko normalnie oś X zyroskopu (skręt w lewo/ w prawo) oraz oś Z akcelerometru (przód/tył)

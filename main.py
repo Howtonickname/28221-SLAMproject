@@ -51,21 +51,32 @@ plt.ylabel('Y-axis (mm)')
 plt.grid(True)
 plt.ion()  # Turn on interactive mode
 plt.title('LIDAR data')
+'''
+isDriving, flag2 = True, True
+while flag2:
+    while isDriving:
+        rp_i.get_scan()
+        for angle, distance in rp_i.front_data:
+            if distance < 450:
+                motors.stop()
+                isDriving = False
+        motors.move_forward()
+    motors.turn_right(0.5)
+    isDriving = True
+    '''
 for i in range(60):
+    rp_i.get_scan()
+    imu.update_gyro()
     angles_rad = np.radians((rp_i.scan_data_angles-imu.new_rotation_angle) % 360)
-    more_x=rp_i.scan_data_distance * np.cos(angles_rad)
-    more_y=rp_i.scan_data_distance * np.sin(angles_rad)
+    more_x = rp_i.scan_data_distance * np.cos(angles_rad)
+    more_y = rp_i.scan_data_distance * np.sin(angles_rad)
     plt.scatter(more_x, more_y, s=10, c='black', alpha=0.5, marker='o', edgecolors='black', linewidths=1.5)
     x.extend(more_x)
     y.extend(more_y)
-    plt.pause(1)
+    plt.pause(0.5)
 
 plt.ioff()  # Turn off interactive mode
 plt.show()
-
-imu_thread.join()
-rplidar_thread.join()
-driving_thread.join()
 
 rp_i.lidar.stop()
 rp_i.lidar.set_motor_pwm(0)
