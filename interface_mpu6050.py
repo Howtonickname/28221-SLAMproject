@@ -150,10 +150,7 @@ def update_gyro():
     #pos += vel * dt
     #print(f"{dt:.6f}")
 
-calibrate()
-while True:
-    time.sleep(0.1)
-    update_gyro()
+
 
 ''' aplikowanie kalibracji na wszystkie osie, zostawie to ale do ograniczenia obliczeń będe sprawdzał tylko normalnie oś X zyroskopu (skręt w lewo/ w prawo) oraz oś Z akcelerometru (przód/tył)
     while True:

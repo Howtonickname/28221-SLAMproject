@@ -5,28 +5,24 @@ lidar = PyRPlidar()
 lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
 lidar.set_motor_pwm(500)
 max_size = 300
-scan_generator = lidar.start_scan_express(0)
+scan_generator = lidar.start_scan_express(3)
 
 scan_data_angles = np.array([], dtype=float)
 scan_data_distance = np.array([], dtype=float)
 front_data = []
-travel_distance = 0
 
-def rplidar_loop():
+
+def get_scan():
     np.set_printoptions(suppress=True)
     scan_data = []
-    temp = 0
+
     global scan_data_angles
     global scan_data_distance
     global front_data
-    global travel_distance
+
     for scan in scan_generator():
         if scan.quality != 0:
             scan_data.append([scan.angle, scan.distance])
-
-            if(temp<scan.distance):
-                print("New max value: ",scan.distance)
-                temp = scan.distance
 
             if len(scan_data) > max_size:
 
@@ -37,8 +33,8 @@ def rplidar_loop():
                 front_data = scan_data_np[filtered_indices]
 
                 scan_data_angles, scan_data_distance = np.hsplit(scan_data_np, 2)
+                break
 
-                scan_data = []
 
 #rplidar_loop()
 #rplidar_thread = threading.Thread(target=rplidar_loop,daemon=True)

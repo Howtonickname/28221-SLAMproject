@@ -42,12 +42,7 @@ device_y=0
 more_x=[]
 more_y=[]
 
-rplidar_thread = threading.Thread(target=rp_i.rplidar_loop, daemon=True)
-imu_thread = threading.Thread(target=imu.imu_loop, daemon=True)
-driving_thread = threading.Thread(target=driving_loop, daemon=True)
-imu_thread.start()
-
-
+imu.calibrate()
 
 plt.figure(figsize=(8, 8))
 plt.title('Calibrating, please wait')
@@ -55,9 +50,6 @@ plt.xlabel('X-axis (mm)')
 plt.ylabel('Y-axis (mm)')
 plt.grid(True)
 plt.ion()  # Turn on interactive mode
-plt.pause(15)
-rplidar_thread.start()
-driving_thread.start()
 plt.title('LIDAR data')
 for i in range(60):
     angles_rad = np.radians((rp_i.scan_data_angles-imu.new_rotation_angle) % 360)
