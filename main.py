@@ -26,7 +26,7 @@ def driving_loop():
     while flag2:
         while isDriving:
             for angle, distance in rp_i.front_data:
-                print("Distance:", distance, "Angle:", angle)
+                #print("Distance:", distance, "Angle:", angle)
                 if distance < 300:
                     motors.stop()
                     isDriving = False

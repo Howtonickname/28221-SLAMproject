@@ -112,7 +112,7 @@ def imu_loop():
         rotation_angle += gyro_data * dt
         new_rotation_angle = rotation_angle
         # print(acc_data)
-        print(new_rotation_angle)
+        print(dt)
         time.sleep(0.05)
         last_t = t
 
