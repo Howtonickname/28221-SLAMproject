@@ -127,10 +127,19 @@ def imu_loop():
 
         # v1 = v0 + acc_data * t
         # poz0 = v1 * t + 0.5 * acc_data * t ** 2
-        # poz1 += poz0
+        # poz1 = poz0 + (v1+v0)*t/2
         # print(f"{poz1}")
         # time.sleep(t)
         # v0 = v1
+
+        t = time.time()
+        dt = t - last_t
+        a1 = acc_data
+        v1 = v0+a1*dt
+        poz1 += poz0 + ((v1+v0)/2) *dt
+        v1=v0
+        last_t = t
+
 
         # a1 = acc_data
         # v1 = v0 + (a1 + a0)*t/2
