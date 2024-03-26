@@ -20,19 +20,18 @@ należy dosłownie rozszerzyć kod od jeżdżenia i stale rejestrować gdzie rob
 oraz dodać do punktów bias w postaci odsunięcia się od 0, 0
 '''
 def driving_loop():
-    #To jest kod dla prostego programu w którym robot jedzie do przodu i skreca w prawo
-    #Nie jest w żaden sposób sprzężony z mapowaniem w lidarze
     global device_x
     global device_y
-    isDriving, flag2 = True, True
-    while flag2:
-
+    isDriving, Finished = True, False
+    while not Finished:
+        starting_d = get_angle(0)
         while isDriving:
-            angles_rad = np.radians((rp_i.scan_data_angles + imu.new_rotation_angle) % 360)
-            device_x = rp_i.scan_data_distance * np.cos(angles_rad)
-            device_y = rp_i.scan_data_distance * np.sin(angles_rad)
+            diff = starting_d - get_angle(0)
+            starting_d = get_angle(0)
+            angle_rad = np.radians(imu.new_rotation_angle % 360)
+            device_x = diff * np.cos(angle_rad)
+            device_y = diff * np.sin(angle_rad)
             for angle, distance in rp_i.front_data:
-                #print("Distance:", distance, "Angle:", angle)
                 if distance < 300:
                     motors.stop()
                     isDriving = False
@@ -40,8 +39,10 @@ def driving_loop():
         motors.turn_right(0.5)
         isDriving = True
 
-def get_angle(angle):
-
+def get_angle(angle=0):
+    for angle, distance in rp_i.front_data:
+        if angle <= rp_i.front_data.angle < angle + 1:
+            return rp_i.front_data.distance
 
 x=[]
 y=[]
