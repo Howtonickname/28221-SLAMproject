@@ -1,13 +1,12 @@
-from pyrplidar import PyRPlidar
+from adafruit_rplidar import RPLidar
 import time
 import numpy as np
 import matplotlib.pyplot as plt
-lidar = PyRPlidar()
-lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
-lidar.set_motor_pwm(500)
+lidar = RPLidar(None, "/dev/ttyUSB0", timeout=3)
+
 max_size = 300
 #scan_generator = lidar.start_scan_express(3)
-scan_generator = lidar.force_scan()
+
 
 scan_data_angles = np.array([], dtype=float)
 scan_data_distance = np.array([], dtype=float)
@@ -20,10 +19,11 @@ def get_scan():
     global scan_data_angles
     global scan_data_distance
     global front_data
-
-    for count, scan in enumerate(scan_generator()):
-        if scan.quality != 0:
-            scan_data.append([scan.angle, scan.distance])
+    count=0
+    for scan in lidar.iter_scans():
+        for (_, angle, distance) in scan:
+            scan_data.append([angle, distance])
+            count+=1
             if count > max_size:
                 scan_data_np = np.array(scan_data)
                 angle_values = scan_data_np[:, 0]
@@ -35,14 +35,19 @@ def get_scan():
 
 
 def get_scan_single(angle=0):
-    for scan in scan_generator():
-        if scan.quality != 0 and angle <= scan.angle < angle + 1:
-            return scan.angle, scan.distance
+    scan_data = []
+    for scan in lidar.iter_scans():
+        for _, angle, distance in scan:
+            if scan.quality != 0 and angle <= scan.angle < angle + 1:
+                return scan.angle, scan.distance
+    #for scan in scan_generator():
+    #    if scan.quality != 0 and angle <= scan.angle < angle + 1:
+    #        return scan.angle, scan.distance
 
 
-for i in range(60):
-    get_scan()
-    plt.pause(0.5)
+#for i in range(60):
+#    get_scan()
+#    plt.pause(0.5)
 
 
 
