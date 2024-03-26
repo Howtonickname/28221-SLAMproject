@@ -58,16 +58,15 @@ plt.ylabel('Y-axis (mm)')
 plt.grid(True)
 plt.ion()  # Turn on interactive mode
 plt.pause(15)
-
 driving_thread.start()
 plt.title('LIDAR data')
 for i in range(60):
-    angles_rad = np.radians((rp_i.scan_data_angles-imu.new_rotation_angle) % 360)
+    angles_rad = np.radians((rp_i.scan_data_angles+imu.new_rotation_angle) % 360)
     more_x=rp_i.scan_data_distance * np.cos(angles_rad)
     more_y=rp_i.scan_data_distance * np.sin(angles_rad)
     plt.scatter(more_x, more_y, s=10, c='black', alpha=0.5, marker='o', edgecolors='black', linewidths=1.5)
-    x.extend(more_x)
-    y.extend(more_y)
+    x.append(more_x)
+    y.append(more_y)
     plt.pause(1)
 
 plt.ioff()  # Turn off interactive mode
