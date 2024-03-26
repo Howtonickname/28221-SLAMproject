@@ -15,11 +15,13 @@ front_data = []
 
 def get_scan():
     np.set_printoptions(suppress=True)
+    flag_finished = False
     scan_data = []
     global scan_data_angles
     global scan_data_distance
     global front_data
     count=0
+
     for scan in lidar.iter_scans():
         for (_, angle, distance) in scan:
             scan_data.append([angle, distance])
@@ -30,8 +32,9 @@ def get_scan():
                 filtered_indices = np.where(((angle_values >= 345) & (angle_values <= 360)) | ((angle_values >= 0) & (angle_values <= 15)))
                 front_data = scan_data_np[filtered_indices]
                 scan_data_angles, scan_data_distance = np.hsplit(scan_data_np, 2)
-                print(scan_data_distance)
-                break
+                scan_data = []
+                count = 0
+
 
 
 def get_scan_single(angle=0):
@@ -45,9 +48,7 @@ def get_scan_single(angle=0):
     #        return scan.angle, scan.distance
 
 
-#for i in range(60):
-#    get_scan()
-#    plt.pause(0.5)
+
 
 
 
