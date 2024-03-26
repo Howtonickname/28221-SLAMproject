@@ -1,46 +1,36 @@
-from pyrplidar import PyRPlidar
+from adafruit_rplidar import RPLidar
 import time
 import numpy as np
-lidar = PyRPlidar()
-lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
-lidar.set_motor_pwm(500)
+lidar = RPLidar(None, "/dev/ttyUSB0", timeout=3)
 max_size = 300
-scan_generator = lidar.start_scan_express(0)
 
 scan_data_angles = np.array([], dtype=float)
 scan_data_distance = np.array([], dtype=float)
 front_data = []
-travel_distance = 0
 
-def rplidar_loop():
+
+def get_scan():
     np.set_printoptions(suppress=True)
+    flag_finished = False
     scan_data = []
-    temp = 0
     global scan_data_angles
     global scan_data_distance
     global front_data
-    global travel_distance
-    while True:
-        for scan in scan_generator():
-            if scan.quality != 0:
-                scan_data.append([scan.angle, scan.distance])
+    count = 0
 
-                if(temp<scan.distance):
-                    print("New max value: ",scan.distance)
-                    temp = scan.distance
-
-                if len(scan_data) > max_size:
-
-                    scan_data_np = np.array(scan_data)
-
-                    angle_values = scan_data_np[:, 0]
-                    filtered_indices = np.where(((angle_values >= 345) & (angle_values <= 360)) | ((angle_values >= 0) & (angle_values <= 15)))
-                    front_data = scan_data_np[filtered_indices]
-
-                    scan_data_angles, scan_data_distance = np.hsplit(scan_data_np, 2)
-
-
-                    scan_data = []
+    for scan in lidar.iter_scans():
+        for (_, angle, distance) in scan:
+            scan_data.append([angle, distance])
+            count += 1
+            if count > max_size:
+                scan_data_np = np.array(scan_data)
+                angle_values = scan_data_np[:, 0]
+                filtered_indices = np.where(
+                    ((angle_values >= 345) & (angle_values <= 360)) | ((angle_values >= 0) & (angle_values <= 15)))
+                front_data = scan_data_np[filtered_indices]
+                scan_data_angles, scan_data_distance = np.hsplit(scan_data_np, 2)
+                scan_data = []
+                count = 0
 
 #rplidar_loop()
 #rplidar_thread = threading.Thread(target=rplidar_loop,daemon=True)

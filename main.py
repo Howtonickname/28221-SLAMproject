@@ -42,9 +42,10 @@ device_y=0
 more_x=[]
 more_y=[]
 
-rplidar_thread = threading.Thread(target=rp_i.rplidar_loop, daemon=True)
+rplidar_thread = threading.Thread(target=rp_i.get_scan, daemon=True)
 imu_thread = threading.Thread(target=imu.imu_loop, daemon=True)
 driving_thread = threading.Thread(target=driving_loop, daemon=True)
+rplidar_thread.start()
 imu_thread.start()
 
 
@@ -56,7 +57,7 @@ plt.ylabel('Y-axis (mm)')
 plt.grid(True)
 plt.ion()  # Turn on interactive mode
 plt.pause(15)
-rplidar_thread.start()
+
 driving_thread.start()
 plt.title('LIDAR data')
 for i in range(60):
