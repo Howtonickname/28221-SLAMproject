@@ -35,7 +35,7 @@ def MPU_Init():
     bus.write_byte_data(Device_Address, CONFIG, 0)
 
     # Write to Gyro configuration register default 248
-    bus.write_byte_data(Device_Address, GYRO_CONFIG, 24)
+    bus.write_byte_data(Device_Address, GYRO_CONFIG, 0)
 
     # Write to akcelerometr configuration register 224
     bus.write_byte_data(Device_Address, ACCL_CONFIG, 0)
@@ -56,27 +56,27 @@ def read_raw_data(addr):
         value = value - 65536
     return value
 
+
 bus = smbus.SMBus(1)  # or bus = smbus.SMBus(0) for older version boards
 Device_Address = 0x68  # MPU6050 device address
 
 MPU_Init()
 new_rotation_angle = 0.0
-def imu_loop():
-    # Full scale range +/- 250 degree/C as per sensitivity scale factor
-    acc_div = 16384.0
-    gyro_div = 17.2
-    # Number of samples to collect for calibration
-    num_samples = 1000
-    # Calibration variables
-    acceleration_offsets = [0, 0, 0]
-    gyroscope_offsets = [0, 0, 0]
-    rotation_angle = 0.0
-    t = 0.01
-    global new_rotation_angle
+last_t = time.time()
+acceleration_offsets = [0, 0, 0]
+gyroscope_offsets = [0, 0, 0]
+acc_div = 16384.0
+gyro_div = 131.0
 
+
+def calibrate(t=0.01, samples=1000):
+
+    global acceleration_offsets
+    global gyroscope_offsets
+    global last_t
     print("Calculating sensor offsets.")
-    print("Calibration takes ", num_samples * t, " seconds")
-    for _ in range(num_samples):
+    print("Calibration takes ", samples * t, " seconds")
+    for _ in range(samples):
         raw_acc_data = np.array([read_raw_data(ACCEL_XOUT_H), read_raw_data(ACCEL_YOUT_H), read_raw_data(ACCEL_ZOUT_H)])
         acc_data = raw_acc_data / acc_div
 
@@ -89,64 +89,71 @@ def imu_loop():
         time.sleep(t)
 
     # Calculate average offsets
-    acceleration_offsets = [offset / num_samples for offset in acceleration_offsets]
-    gyroscope_offsets = [offset / num_samples for offset in gyroscope_offsets]
+    acceleration_offsets = [offset / samples for offset in acceleration_offsets]
+    gyroscope_offsets = [offset / samples for offset in gyroscope_offsets]
 
     print("Acceleration Offsets:", acceleration_offsets)
     print("Gyroscope Offsets:", gyroscope_offsets)
     print("Reading Data of Gyroscope and Accelerometer")
+
     last_t = time.time()
-    while True:
-        raw_acc_data = np.array([read_raw_data(ACCEL_XOUT_H), read_raw_data(ACCEL_YOUT_H), read_raw_data(ACCEL_ZOUT_H)])
-        raw_gyro_data = np.array([read_raw_data(GYRO_XOUT_H), read_raw_data(GYRO_YOUT_H), read_raw_data(GYRO_ZOUT_H)])
-
-        acc_data = (raw_acc_data[2] / acc_div) * 9.807
-        acc_data -= acceleration_offsets[2]
-
-        gyro_data = raw_gyro_data[0] / gyro_div
-        gyro_data -= gyroscope_offsets[0]
-        # Gx = raw_gyro_data[0] / 131.0
-        t = time.time()
-        dt = t - last_t
-        # Integrate angular velocity to get rotation angle
-        rotation_angle += gyro_data * dt
-        new_rotation_angle = rotation_angle
-        # print(acc_data)
-        print(dt)
-        time.sleep(0.05)
-        last_t = t
-
-        # a1 = acc_data
-        # v1 = v0+a1*t
-        # sredniav = (v1+v0)/2
-        # poz1 = poz0 + sredniav * t
-        # print(f"{poz1}")
-        # time.sleep(t)
-        # v0 = v1
-        # poz0 = poz1
-
-        # v1 = v0 + acc_data * t
-        # poz0 = v1 * t + 0.5 * acc_data * t ** 2
-        # poz1 += poz0
-        # print(f"{poz1}")
-        # time.sleep(t)
-        # v0 = v1
-
-        # a1 = acc_data
-        # v1 = v0 + (a1 + a0)*t/2
-        # poz1 = poz0 + (v1 + v0)*t/2
-        # print(f"{poz1}")
-        # a0 = a1
-        # v0 = v1
-        # poz0 = poz1
 
 
-        #acc = acc_data
-        #vel += acc * dt
-        #pos += vel * dt
-        #print(f"{dt:.6f}")
+def update_gyro():
+
+    global new_rotation_angle
+    global last_t
+
+    raw_acc_data = np.array([read_raw_data(ACCEL_XOUT_H), read_raw_data(ACCEL_YOUT_H), read_raw_data(ACCEL_ZOUT_H)])
+    raw_gyro_data = np.array([read_raw_data(GYRO_XOUT_H), read_raw_data(GYRO_YOUT_H), read_raw_data(GYRO_ZOUT_H)])
+
+    acc_data = (raw_acc_data[2] / acc_div) * 9.807
+    acc_data -= acceleration_offsets[2]
+    gyro_data = raw_gyro_data[0] / gyro_div
+    gyro_data -= gyroscope_offsets[0]
+
+    t = time.time()
+    dt = t - last_t
+    # Integrate angular velocity to get rotation angle
+    new_rotation_angle += gyro_data * dt
+    # print(acc_data)
+    print(new_rotation_angle)
+    last_t = t
+
+    # a1 = acc_data
+    # v1 = v0+a1*t
+    # sredniav = (v1+v0)/2
+    # poz1 = poz0 + sredniav * t
+    # print(f"{poz1}")
+    # time.sleep(t)
+    # v0 = v1
+    # poz0 = poz1
+
+    # v1 = v0 + acc_data * t
+    # poz0 = v1 * t + 0.5 * acc_data * t ** 2
+    # poz1 += poz0
+    # print(f"{poz1}")
+    # time.sleep(t)
+    # v0 = v1
+
+    # a1 = acc_data
+    # v1 = v0 + (a1 + a0)*t/2
+    # poz1 = poz0 + (v1 + v0)*t/2
+    # print(f"{poz1}")
+    # a0 = a1
+    # v0 = v1
+    # poz0 = poz1
 
 
+    #acc = acc_data
+    #vel += acc * dt
+    #pos += vel * dt
+    #print(f"{dt:.6f}")
+
+calibrate()
+while True:
+    time.sleep(0.1)
+    update_gyro()
 
 ''' aplikowanie kalibracji na wszystkie osie, zostawie to ale do ograniczenia obliczeń będe sprawdzał tylko normalnie oś X zyroskopu (skręt w lewo/ w prawo) oraz oś Z akcelerometru (przód/tył)
     while True:

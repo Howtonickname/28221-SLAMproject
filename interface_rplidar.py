@@ -20,27 +20,25 @@ def rplidar_loop():
     global scan_data_distance
     global front_data
     global travel_distance
-    while True:
-        for scan in scan_generator():
-            if scan.quality != 0:
-                scan_data.append([scan.angle, scan.distance])
+    for scan in scan_generator():
+        if scan.quality != 0:
+            scan_data.append([scan.angle, scan.distance])
 
-                if(temp<scan.distance):
-                    print("New max value: ",scan.distance)
-                    temp = scan.distance
+            if(temp<scan.distance):
+                print("New max value: ",scan.distance)
+                temp = scan.distance
 
-                if len(scan_data) > max_size:
+            if len(scan_data) > max_size:
 
-                    scan_data_np = np.array(scan_data)
+                scan_data_np = np.array(scan_data)
 
-                    angle_values = scan_data_np[:, 0]
-                    filtered_indices = np.where(((angle_values >= 345) & (angle_values <= 360)) | ((angle_values >= 0) & (angle_values <= 15)))
-                    front_data = scan_data_np[filtered_indices]
+                angle_values = scan_data_np[:, 0]
+                filtered_indices = np.where(((angle_values >= 345) & (angle_values <= 360)) | ((angle_values >= 0) & (angle_values <= 15)))
+                front_data = scan_data_np[filtered_indices]
 
-                    scan_data_angles, scan_data_distance = np.hsplit(scan_data_np, 2)
+                scan_data_angles, scan_data_distance = np.hsplit(scan_data_np, 2)
 
-
-                    scan_data = []
+                scan_data = []
 
 #rplidar_loop()
 #rplidar_thread = threading.Thread(target=rplidar_loop,daemon=True)
