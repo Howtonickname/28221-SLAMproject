@@ -18,7 +18,7 @@ def get_scan():
     global front_data
     count = 0
 
-    for scan in lidar.iter_scans():
+    for scan in lidar.iter_scans(max_buf_meas=300, min_len=5):
         for (_, angle, distance) in scan:
             scan_data.append([angle, distance])
             count += 1
