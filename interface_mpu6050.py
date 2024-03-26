@@ -109,10 +109,10 @@ def imu_loop():
         t = time.time()
         dt = t - last_t
         # Integrate angular velocity to get rotation angle
-        rotation_angle += gyro_data * dt
+        rotation_angle -= gyro_data * dt
         new_rotation_angle = rotation_angle
         # print(acc_data)
-        print(dt)
+        print(new_rotation_angle)
         time.sleep(0.05)
         last_t = t
 

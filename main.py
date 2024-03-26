@@ -24,6 +24,7 @@ def driving_loop():
     #Nie jest w żaden sposób sprzężony z mapowaniem w lidarze
     isDriving, flag2 = True, True
     while flag2:
+
         while isDriving:
             for angle, distance in rp_i.front_data:
                 #print("Distance:", distance, "Angle:", angle)
