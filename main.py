@@ -54,8 +54,6 @@ driving_thread = threading.Thread(target=driving_loop, daemon=True)
 rplidar_thread.start()
 imu_thread.start()
 
-
-
 plt.figure(figsize=(8, 8))
 plt.title('Calibrating, please wait')
 plt.xlabel('X-axis (mm)')
