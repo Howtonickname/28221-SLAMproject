@@ -1,13 +1,14 @@
-#uzyte biblioteki
+# uzyte biblioteki
 import matplotlib.pyplot as plt
 import numpy as np
 import threading
 import pandas as pd
 
-#moje pliki
+# moje pliki
 import interface_rplidar as rp_i
 import interface_mpu6050 as imu
 import interface_l298n as motors
+
 '''
 robot ma zaznaczyć wykryty dystans przed jazdą
 jak jedzie na przód ile ten dystans skrócił trzeba zaliczyć jako przebyty dystans
@@ -16,11 +17,13 @@ i jak jest gotowy do jazdy to znowu przerabia to samo
 należy dosłownie rozszerzyć kod od jeżdżenia i stale rejestrować gdzie robot jest teraz z pomocą kąta z żyroskopu
 oraz dodać do punktów bias w postaci odsunięcia się od 0, 0
 '''
+
+
 def driving_loop():
     global device_x
     global device_y
-    isDriving, Finished = True, False
-    while not Finished:
+    isDriving, finished = True, False
+    while not finished:
         starting_d = get_angle(0)
         while isDriving:
             diff = starting_d - get_angle(0)
@@ -36,17 +39,17 @@ def driving_loop():
         motors.turn_right(0.5)
         isDriving = True
 
+
 def get_angle(angle=0):
     for angle, distance in rp_i.front_data:
         if angle <= rp_i.front_data.angle < angle + 1:
             return rp_i.front_data.distance
 
-x=[]
-y=[]
-device_x=0
-device_y=0
-more_x=[]
-more_y=[]
+
+x = []
+y = []
+device_x = 0
+device_y = 0
 
 rplidar_thread = threading.Thread(target=rp_i.get_scan, daemon=True)
 imu_thread = threading.Thread(target=imu.imu_loop, daemon=True)
@@ -64,7 +67,7 @@ plt.pause(15)
 driving_thread.start()
 plt.title('LIDAR data')
 for i in range(20):
-    angles_rad = np.radians((rp_i.scan_data_angles+imu.new_rotation_angle) % 360)
+    angles_rad = np.radians((rp_i.scan_data_angles + imu.new_rotation_angle) % 360)
     more_x = rp_i.scan_data_distance * np.cos(angles_rad)
     more_y = rp_i.scan_data_distance * np.sin(angles_rad)
     plt.scatter(more_x, more_y, s=10, c='black', alpha=0.5, marker='o', edgecolors='black', linewidths=1.5)
