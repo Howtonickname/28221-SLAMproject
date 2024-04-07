@@ -132,13 +132,13 @@ def imu_loop():
         # time.sleep(t)
         # v0 = v1
 
-        t = time.time()
-        dt = t - last_t
-        a1 = acc_data
-        v1 = v0+a1*dt
-        poz1 += poz0 + ((v1+v0)/2) *dt
-        v1=v0
-        last_t = t
+        # t = time.time()
+        # dt = t - last_t
+        # a1 = acc_data
+        # v1 = v0+a1*dt
+        # poz1 += poz0 + ((v1+v0)/2) *dt
+        # v1=v0
+        # last_t = t
 
 
         # a1 = acc_data
