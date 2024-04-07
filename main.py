@@ -24,10 +24,10 @@ def driving_loop():
     global device_y
     isDriving, finished = True, False
     while not finished:
-        starting_d = get_angle(0)
+        starting_d = rp_i.get_distance()
         while isDriving:
-            diff = starting_d - get_angle(0)
-            starting_d = get_angle(0)
+            diff = starting_d - rp_i.get_distance()
+            starting_d = rp_i.get_distance()
             angle_rad = np.radians(imu.new_rotation_angle % 360)
             device_x = diff * np.cos(angle_rad)
             device_y = diff * np.sin(angle_rad)
@@ -38,13 +38,6 @@ def driving_loop():
             motors.move_forward()
         motors.turn_right(0.5)
         isDriving = True
-
-
-def get_angle(angle=0):
-    for angle, distance in rp_i.front_data:
-        if angle <= rp_i.front_data.angle < angle + 1:
-            return rp_i.front_data.distance
-
 
 x = []
 y = []

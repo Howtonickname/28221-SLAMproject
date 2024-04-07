@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4f41623d-9ac6-49b1-9c52-439ae9bedeef" name="Changes" comment="Project imported" />
+    <list default="true" id="4f41623d-9ac6-49b1-9c52-439ae9bedeef" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/28221-SLAMproject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/28221-SLAMproject.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interface_l298n.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface_l298n.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interface_mpu6050.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface_mpu6050.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interface_rplidar.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface_rplidar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,13 +36,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.interface_l298n.executor": "Run",
+    "Python.interface_rplidar.executor": "Run",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="28221-SLAMproject" />
@@ -46,8 +55,9 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.12 (28221-SLAMproject)" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
@@ -132,11 +142,28 @@
       <option name="project" value="LOCAL" />
       <updated>1712514604374</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="distance measuring and data export">
+      <option name="closed" value="true" />
+      <created>1712514645224</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1712514645224</updated>
+    </task>
+    <task id="LOCAL-00009" summary="distance measuring and data export">
+      <option name="closed" value="true" />
+      <created>1712514742347</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1712514742347</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Project imported" />
-    <option name="LAST_COMMIT_MESSAGE" value="Project imported" />
+    <MESSAGE value="distance measuring and data export" />
+    <option name="LAST_COMMIT_MESSAGE" value="distance measuring and data export" />
   </component>
 </project>

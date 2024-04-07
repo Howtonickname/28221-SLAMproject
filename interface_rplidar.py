@@ -7,7 +7,9 @@ max_size = 300
 scan_data_angles = np.array([], dtype=float)
 scan_data_distance = np.array([], dtype=float)
 front_data = []
-
+def get_distance():
+    distance = np.argmin(front_data[:, 0])
+    return front_data[distance, 1]
 
 def get_scan():
     np.set_printoptions(suppress=True)
@@ -31,6 +33,7 @@ def get_scan():
                 scan_data_angles, scan_data_distance = np.hsplit(scan_data_np, 2)
                 scan_data = []
                 count = 0
+
 
 #rplidar_loop()
 #rplidar_thread = threading.Thread(target=rplidar_loop,daemon=True)

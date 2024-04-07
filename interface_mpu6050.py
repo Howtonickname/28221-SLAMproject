@@ -105,14 +105,12 @@ def imu_loop():
 
         gyro_data = raw_gyro_data[0] / gyro_div
         gyro_data -= gyroscope_offsets[0]
-        # Gx = raw_gyro_data[0] / 131.0
+
         t = time.time()
         dt = t - last_t
-        # Integrate angular velocity to get rotation angle
+
         rotation_angle -= gyro_data * dt
         new_rotation_angle = rotation_angle
-        # print(acc_data)
-        print(new_rotation_angle)
         time.sleep(0.05)
         last_t = t
 
