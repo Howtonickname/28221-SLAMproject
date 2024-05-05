@@ -13,7 +13,7 @@ forwL = 18  # lewe przod BCM 24 Board 18
 backL = 16  # lewe tyl BCM 23 Board 16
 pwmA = 22  # pwm lewe BCM 25 Board 22
 
-baseL = 60
+baseL = 75
 baseR = 60
 
 GPIO.setup(forwR, GPIO.OUT)  # prawe przod
@@ -77,4 +77,3 @@ def stop():
     GPIO.output(forwL, GPIO.LOW)
     GPIO.output(backL, GPIO.LOW)
     GPIO.output(backR, GPIO.LOW)
-
