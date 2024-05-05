@@ -163,7 +163,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712519078717</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="distance measuring and data export">
+      <option name="closed" value="true" />
+      <created>1714918949853</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1714918949854</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
