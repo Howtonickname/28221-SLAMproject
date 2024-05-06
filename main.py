@@ -1,5 +1,7 @@
 # uzyte biblioteki
 import time
+import os
+from datetime import datetime
 import matplotlib.pyplot as plt
 import numpy as np
 import threading
@@ -10,15 +12,14 @@ import interface_rplidar as rp_i
 import interface_mpu6050 as imu
 import interface_l298n as motors
 
-'''
-robot ma zaznaczyć wykryty dystans przed jazdą
-jak jedzie na przód ile ten dystans skrócił trzeba zaliczyć jako przebyty dystans
-następnie przed obrotem jakaś flaga żeby nie rejestrowało zmian
-i jak jest gotowy do jazdy to znowu przerabia to samo
-należy dosłownie rozszerzyć kod od jeżdżenia i stale rejestrować gdzie robot jest teraz z pomocą kąta z żyroskopu
-oraz dodać do punktów bias w postaci odsunięcia się od 0, 0
-'''
-
+def export_data(x, y):
+    current_datetime = datetime.now()
+    date = current_datetime.strftime('%Y-%m-%d_%H-%M-%S')
+    desktop = os.path.join(os.path.expanduser('~'), 'Desktop')
+    file_name = f'dane_{date}.csv'
+    file_path = os.path.join(desktop, file_name)
+    data = pd.DataFrame({'x': x, 'y': y})
+    data.to_csv(file_path, index=False)
 
 # def driving_loop():
 #     global device_x
@@ -68,11 +69,10 @@ for i in range(10):
     y = np.append(y, more_y)
     plt.pause(1)
 
-data = pd.DataFrame({'x': x, 'y': y})
-data.to_csv('dane.csv', index=False)
-
 plt.ioff()  # Turn off interactive mode
 plt.show()
+
+export_data(x, y)
 
 imu_thread.join()
 rplidar_thread.join()

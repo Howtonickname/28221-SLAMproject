@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4f41623d-9ac6-49b1-9c52-439ae9bedeef" name="Changes" comment="distance measuring and data export">
+    <list default="true" id="4f41623d-9ac6-49b1-9c52-439ae9bedeef" name="Changes" comment="lidar libraries lag and make everyting fall apart">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/interface_l298n.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface_l298n.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,12 +171,29 @@
       <option name="project" value="LOCAL" />
       <updated>1714918949854</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="distance measuring and data export">
+      <option name="closed" value="true" />
+      <created>1714919157382</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1714919157382</updated>
+    </task>
+    <task id="LOCAL-00013" summary="lidar libraries lag and make everyting fall apart">
+      <option name="closed" value="true" />
+      <created>1714984547944</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1714984547944</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Project imported" />
     <MESSAGE value="distance measuring and data export" />
-    <option name="LAST_COMMIT_MESSAGE" value="distance measuring and data export" />
+    <MESSAGE value="lidar libraries lag and make everyting fall apart" />
+    <option name="LAST_COMMIT_MESSAGE" value="lidar libraries lag and make everyting fall apart" />
   </component>
 </project>
