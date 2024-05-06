@@ -57,7 +57,7 @@ plt.xlabel('X-axis (mm)')
 plt.ylabel('Y-axis (mm)')
 plt.grid(True)
 plt.ion()  # Turn on interactive mode
-plt.pause(15)
+plt.pause(16)
 #driving_thread.start()
 plt.title('LIDAR data')
 for i in range(10):
@@ -65,19 +65,17 @@ for i in range(10):
     more_x = rp_i.scan_data_distance * np.cos(angles_rad)
     more_y = rp_i.scan_data_distance * np.sin(angles_rad)
     plt.scatter(more_x, more_y, s=10, c='black', alpha=0.5, marker='o', edgecolors='black', linewidths=1.5)
+    print("loop")
     x = np.append(x, more_x)
     y = np.append(y, more_y)
     plt.pause(1)
-
+print("export time")
+export_data(x, y)
 plt.ioff()  # Turn off interactive mode
 plt.show()
-
-export_data(x, y)
-
 imu_thread.join()
 rplidar_thread.join()
 #driving_thread.join()
-
 rp_i.lidar.stop()
 rp_i.lidar.set_motor_pwm(0)
 rp_i.lidar.disconnect()

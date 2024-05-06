@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4f41623d-9ac6-49b1-9c52-439ae9bedeef" name="Changes" comment="lidar libraries lag and make everyting fall apart">
+    <list default="true" id="4f41623d-9ac6-49b1-9c52-439ae9bedeef" name="Changes" comment="added export_data(), saves file to desktop">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interface_mpu6050.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface_mpu6050.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interface_rplidar.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface_rplidar.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -187,13 +189,22 @@
       <option name="project" value="LOCAL" />
       <updated>1714984547944</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="added export_data(), saves file to desktop">
+      <option name="closed" value="true" />
+      <created>1714987156223</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1714987156223</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Project imported" />
     <MESSAGE value="distance measuring and data export" />
     <MESSAGE value="lidar libraries lag and make everyting fall apart" />
-    <option name="LAST_COMMIT_MESSAGE" value="lidar libraries lag and make everyting fall apart" />
+    <MESSAGE value="added export_data(), saves file to desktop" />
+    <option name="LAST_COMMIT_MESSAGE" value="added export_data(), saves file to desktop" />
   </component>
 </project>

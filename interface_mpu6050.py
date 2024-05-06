@@ -75,7 +75,6 @@ def imu_loop():
     global new_rotation_angle
 
     print("Calculating sensor offsets.")
-    print("Calibration takes ", num_samples * t, " seconds")
     for _ in range(num_samples):
         raw_acc_data = np.array([read_raw_data(ACCEL_XOUT_H), read_raw_data(ACCEL_YOUT_H), read_raw_data(ACCEL_ZOUT_H)])
         acc_data = raw_acc_data / acc_div
