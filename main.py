@@ -12,6 +12,7 @@ import interface_rplidar as rp_i
 import interface_mpu6050 as imu
 import interface_l298n as motors
 
+
 def export_data(x, y):
     current_datetime = datetime.now()
     date = current_datetime.strftime('%Y-%m-%d_%H-%M-%S')
@@ -21,24 +22,26 @@ def export_data(x, y):
     data = pd.DataFrame({'x': x, 'y': y})
     data.to_csv(file_path, index=False)
 
-# def driving_loop():
-#     global device_x
-#     global device_y
-#     isDriving, finished = True, False
-#     while not finished:
-#         starting_d = rp_i.get_distance()
-#         while isDriving:
-#             diff = starting_d - rp_i.get_distance()
-#             starting_d = rp_i.get_distance()
-#             angle_rad = np.radians(imu.new_rotation_angle % 360)
-#             device_y = diff * np.sin(angle_rad)
-#             for angle, distance in rp_i.front_data:
-#                 if distance < 300:
-#                     motors.stop()
-#                     isDriving = False
-#             motors.move_forward()
-#         motors.turn_right(0.5)
-#         isDriving = True
+
+def driving_loop():
+    global device_x
+    global device_y
+    isDriving, finished = True, False
+    while not finished:
+        starting_d = rp_i.get_distance()
+        while isDriving:
+            diff = starting_d - rp_i.get_distance()
+            starting_d = rp_i.get_distance()
+            angle_rad = np.radians(imu.new_rotation_angle % 360)
+            device_y = diff * np.sin(angle_rad)
+            for angle, distance in rp_i.front_data:
+                if distance < 300:
+                    motors.stop()
+                    isDriving = False
+            motors.move_forward()
+        motors.turn_right(0.5)
+        isDriving = True
+
 
 x = []
 y = []
@@ -47,7 +50,7 @@ device_y = 0
 
 rplidar_thread = threading.Thread(target=rp_i.get_scan, daemon=True)
 imu_thread = threading.Thread(target=imu.imu_loop, daemon=True)
-#driving_thread = threading.Thread(target=driving_loop, daemon=True)
+driving_thread = threading.Thread(target=driving_loop, daemon=True)
 rplidar_thread.start()
 imu_thread.start()
 
@@ -58,7 +61,7 @@ plt.ylabel('Y-axis (mm)')
 plt.grid(True)
 plt.ion()  # Turn on interactive mode
 plt.pause(16)
-#driving_thread.start()
+driving_thread.start()
 plt.title('LIDAR data')
 for i in range(10):
     angles_rad = np.radians((rp_i.scan_data_angles + imu.new_rotation_angle) % 360)
@@ -75,7 +78,7 @@ plt.ioff()  # Turn off interactive mode
 plt.show()
 imu_thread.join()
 rplidar_thread.join()
-#driving_thread.join()
+driving_thread.join()
 rp_i.lidar.stop()
 rp_i.lidar.set_motor_pwm(0)
 rp_i.lidar.disconnect()
